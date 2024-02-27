@@ -22,32 +22,38 @@ app.get("/", function (req, res) {
 app.get("/api/:date?", (req, res) => {
   try {
     const {date} = req.params;
-    console.log(date);
     var dateObject;
+    //check if date is an empty parameter/null
     if (!date) {
       var defaultTimes = {
         "unix": Date.now(),
         "utc": new Date().toUTCString()
       }
+      //returns the current time as the default
       res.send(defaultTimes);
     }
     else {
+      //check if the date parameter is a unix timestamp (all numbers)
       if(/^\d+$/.test(date)) {
-      dateObject = new Date(parseInt(date));
+        //parse the string to an int if unix
+        dateObject = new Date(parseInt(date));
       }
       else {
+        //other string formats can be parsed regularly in the date object
         dateObject = new Date(date);
       }
+      //check that the dateObject could be parsed correctly
       if (isNaN(dateObject.getTime())) {
         throw new Error("Invalid date");
       }
+      //get the utc and unix times
       var utcTime = dateObject.toUTCString();
       var unixTime = dateObject.getTime();
+      //store the unix and utc times in the object that will be returned
       const times = {
         "unix": unixTime,
         "utc": `${utcTime}`
       }
-      console.log(times);
       res.send(times);
     }
     
