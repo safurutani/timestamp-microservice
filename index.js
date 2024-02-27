@@ -19,32 +19,40 @@ app.get("/", function (req, res) {
 });
 
 // your first API endpoint... 
-app.get("/api/:date", (req, res) => {
+app.get("/api/:date?", (req, res) => {
   try {
     const {date} = req.params;
     console.log(date);
-    var dateObject = new Date(date);
-    console.log(dateObject);
-    const defaultTimes = {
-      "unix": Date.now() / 1000,
-      "utc": Date.now().utcTime
+    var dateObject;
+    if (!date) {
+      var defaultTimes = {
+        "unix": Date.now(),
+        "utc": new Date().toUTCString()
+      }
+      res.send(defaultTimes);
     }
-    if (date === "" || date === null) {
-      res.send(defaultTimes)
-    }
-    else if(/^\d+$/.test(date)) {
+    else {
+      if(/^\d+$/.test(date)) {
       dateObject = new Date(parseInt(date));
+      }
+      else {
+        dateObject = new Date(date);
+      }
+      if (isNaN(dateObject.getTime())) {
+        throw new Error("Invalid date");
+      }
+      var utcTime = dateObject.toUTCString();
+      var unixTime = dateObject.getTime();
+      const times = {
+        "unix": unixTime,
+        "utc": `${utcTime}`
+      }
+      console.log(times);
+      res.send(times);
     }
-    var utcTime = dateObject.toUTCString();
-    var unixTime = dateObject.getTime()/1000;
-    const times = {
-      "unix": `${unixTime}`,
-      "utc": `${utcTime}`
-    }
-    console.log(times);
-    res.send(times);
+    
   } catch (error) {
-    res.status(500).json({message: error.message});
+    res.status(500).json({error: "Invalid Date"});
   }
 });
 

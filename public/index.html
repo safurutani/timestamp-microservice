@@ -8,7 +8,43 @@
     <title>Timestamp Microservice</title>
 </head>
 <body>
-    <h1>Timestamp Microservice</h1>
-    <script type="text/javascript" src="boilerplate-project-timestamp\index.js"></script>
+  <h1>Timestamp Microservice</h1>
+  <p>
+    The timestamp microservice project is a full stack JavaScript app that provides an API endpoint (/api/:date) for converting Unix timestamps (a number representing the number of milliseconds since January 1, 1970) and common date formats (e.g. mm-dd-yyyy). A JSON object is returned with the corresponding Unix timestamp and UTC date string of the date parameter requested. 
+  </p>
+  <br>
+  <p>
+    For example, both requests to 
+    <br>
+    <a href="https://timestamp-microservice-sf.glitch.me/api/1451001600000">https://timestamp-microservice-sf.glitch.me/api/1451001600000</a> 
+    <br>
+    <a href="https://timestamp-microservice-sf.glitch.me/api/12-25-2015">https://timestamp-microservice-sf.glitch.me/api/12-25-2015</a>
+    <br>
+    will return 
+  </p>
+  <br>
+  <code>
+    {
+    "unix": 1451001600000,
+    "utc": "Fri, 25 Dec 2015 00:00:00 GMT"
+    }
+  </code>
+  <br>
+  <br>
+  <ul>
+    <span>Examples of other valid url encoded date formats:</span>
+    <li>12/25/2015: 12%2F25%2F2015 </li>
+    <li>Dec 25 2015: %22Dec%2025%202015</li>
+    <li>25 Dec 2015: 25%20Dec%202015</li>
+    <li>2015-12-25: 2015-12-25</li>
+    <li>Fri, 25 Dec 2015: Fri%2C%2025%20Dec%202015 </li>
+    <li>December 25, 2015: December%2025%2C%202015</li>
+    <br>
+    *There are plenty more valid formats as long as it is properly encoded for urls*
+  </ul>
+  <p>
+    This project is designed based on requirements for freeCodeCamp's Backend Development and APIs Certification.
+  </p>
+  <script type="text/javascript" src="boilerplate-project-timestamp\index.js"></script>
 </body>
 </html>
