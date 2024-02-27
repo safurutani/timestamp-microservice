@@ -18,29 +18,33 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
 // your first API endpoint... 
 app.get("/api/:date", (req, res) => {
   try {
     const {date} = req.params;
-    const defaultTImes = {
-      "unix": Date.now,
-      "utc": Date.now.toUTCString()
+    console.log(date);
+    var dateObject = new Date(date);
+    console.log(dateObject);
+    const defaultTimes = {
+      "unix": Date.now() / 1000,
+      "utc": Date.now().utcTime
     }
-    if (date === "") {
-      res.send(defaultTImes)
+    if (date === "" || date === null) {
+      res.send(defaultTimes)
     }
-    else {
-      const utcTime = new Date(date).toUTCString();
-      const unixTime= + new Date(date).valueOf();
-      const times = {
-        "unix": `${unixTime}`,
-        "utc": `${utcTime}`
-      }
-    res.send(times)
+    else if(/^\d+$/.test(date)) {
+      dateObject = new Date(parseInt(date));
     }
+    var utcTime = dateObject.toUTCString();
+    var unixTime = dateObject.getTime()/1000;
+    const times = {
+      "unix": `${unixTime}`,
+      "utc": `${utcTime}`
+    }
+    console.log(times);
+    res.send(times);
   } catch (error) {
-    res.status(500).json({error: "Invalid Date"});
+    res.status(500).json({message: error.message});
   }
 });
 
