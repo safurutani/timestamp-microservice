@@ -4,9 +4,7 @@
   "description": "An FCC Backend Challenge",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "mkdir dist && cp index.html dist/index.html && cp -r public/* dist/",
-    "deploy": "gh-pages -d dist"
+    "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.0",
